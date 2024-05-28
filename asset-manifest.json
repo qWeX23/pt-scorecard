@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/pt-scorecard/static/css/main.f855e6bc.css",
+    "main.js": "/pt-scorecard/static/js/main.709c52f3.js",
+    "static/js/453.aafa7ce1.chunk.js": "/pt-scorecard/static/js/453.aafa7ce1.chunk.js",
+    "static/media/logo.svg": "/pt-scorecard/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/pt-scorecard/index.html",
+    "main.f855e6bc.css.map": "/pt-scorecard/static/css/main.f855e6bc.css.map",
+    "main.709c52f3.js.map": "/pt-scorecard/static/js/main.709c52f3.js.map",
+    "453.aafa7ce1.chunk.js.map": "/pt-scorecard/static/js/453.aafa7ce1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.709c52f3.js"
+  ]
+}
