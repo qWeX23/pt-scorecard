@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 10 Scorecard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4 text-center">Phase 10 Scorecard</h1>
+
+    <!-- Player Input -->
+    <div class="flex mb-4">
+      <input id="playerName" class="border p-2 flex-1 mr-2" placeholder="Add player name" />
+      <button id="addPlayer" class="bg-blue-500 text-white px-4 py-2 rounded">Add Player</button>
+    </div>
+
+    <!-- Phase Requirements -->
+    <div class="mb-4">
+      <h2 class="font-semibold">Current Phase Requirement:</h2>
+      <p id="phaseRequirement" class="italic"></p>
+    </div>
+
+    <!-- Scoreboard -->
+    <table class="min-w-full text-sm mb-4" id="scoreTable">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="py-2 px-4 text-left">Player</th>
+          <th class="py-2 px-4 text-left">Phase</th>
+          <th class="py-2 px-4 text-left">Score</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Turn Info -->
+    <div class="mb-4">
+      <h2 class="font-semibold">Current Turn:</h2>
+      <p id="currentTurn" class="italic"></p>
+    </div>
+
+    <!-- Controls -->
+    <div class="mb-4 flex">
+      <input id="pointsInput" type="number" placeholder="Remaining points" class="border p-2 mr-2 w-40" />
+      <button id="completePhase" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Complete Phase</button>
+      <button id="nextTurn" class="bg-blue-500 text-white px-4 py-2 rounded">Next Player</button>
+    </div>
+  </div>
+
+  <script>
+    const phaseDescriptions = [
+      'Phase 1: 2 sets of 3',
+      'Phase 2: 1 set of 3 + 1 run of 4',
+      'Phase 3: 1 set of 4 + 1 run of 4',
+      'Phase 4: 1 run of 7',
+      'Phase 5: 1 run of 8',
+      'Phase 6: 1 run of 9',
+      'Phase 7: 2 sets of 4',
+      'Phase 8: 7 cards of one color',
+      'Phase 9: 1 set of 5 + 1 set of 2',
+      'Phase 10: 1 set of 5 + 1 set of 3'
+    ];
+
+    const players = [];
+    let currentPlayer = 0;
+
+    const playerNameInput = document.getElementById('playerName');
+    const addPlayerBtn = document.getElementById('addPlayer');
+    const phaseRequirementEl = document.getElementById('phaseRequirement');
+    const scoreTableBody = document.querySelector('#scoreTable tbody');
+    const currentTurnEl = document.getElementById('currentTurn');
+    const pointsInput = document.getElementById('pointsInput');
+    const completePhaseBtn = document.getElementById('completePhase');
+    const nextTurnBtn = document.getElementById('nextTurn');
+
+    function updatePhaseRequirement() {
+      if (players.length === 0) {
+        phaseRequirementEl.textContent = '';
+        currentTurnEl.textContent = '';
+        return;
+      }
+      const player = players[currentPlayer];
+      const phaseText = phaseDescriptions[player.phase - 1] || 'All phases complete';
+      phaseRequirementEl.textContent = phaseText;
+      currentTurnEl.textContent = player.name;
+    }
+
+    function renderTable() {
+      scoreTableBody.innerHTML = '';
+      players.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="border px-4 py-2">${p.name}</td>` +
+                       `<td class="border px-4 py-2">${p.phase}</td>` +
+                       `<td class="border px-4 py-2">${p.score}</td>`;
+        scoreTableBody.appendChild(tr);
+      });
+    }
+
+    addPlayerBtn.addEventListener('click', () => {
+      const name = playerNameInput.value.trim();
+      if (!name) return;
+      players.push({ name, phase: 1, score: 0 });
+      playerNameInput.value = '';
+      if (players.length === 1) currentPlayer = 0;
+      renderTable();
+      updatePhaseRequirement();
+    });
+
+    completePhaseBtn.addEventListener('click', () => {
+      if (players.length === 0) return;
+      const player = players[currentPlayer];
+      if (player.phase < 10) player.phase += 1;
+      renderTable();
+      updatePhaseRequirement();
+    });
+
+    nextTurnBtn.addEventListener('click', () => {
+      if (players.length === 0) return;
+      const player = players[currentPlayer];
+      const points = parseInt(pointsInput.value, 10) || 0;
+      player.score += points;
+      pointsInput.value = '';
+      currentPlayer = (currentPlayer + 1) % players.length;
+      renderTable();
+      updatePhaseRequirement();
+    });
+  </script>
+</body>
+</html>
