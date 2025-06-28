@@ -34,3 +34,11 @@ round, and use the buttons to advance turns and phases.
 
 The winner is the player who completes all phases with the lowest total
 score.
+
+## Deployment
+
+This repository is configured to deploy the site using GitHub Pages. Any
+push to the `main` branch runs a workflow that publishes `index.html`
+so the scorecard is accessible as a public website.
+
+
